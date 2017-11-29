@@ -4,8 +4,8 @@ import os
 from twilio.rest import Client
 
 # Find these values at https://twilio.com/user/account
-account_sid = "AC97d26327e6d81f889e210134cbabf940"
-auth_token = "9b81a6156300bfcfc21ba043d22f24a5"
+account_sid = "" #get our api key from the google drive. 
+auth_token = ""
 client = Client(account_sid, auth_token)
 
 message = client.api.account.messages.create(
