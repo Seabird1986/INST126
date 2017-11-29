@@ -11,7 +11,7 @@ app = Flask(__name__)
 def sms_reply():
     r = MessagingResponse()
     body = request.values.get('Body', None)
-    if body == 'Begin' or body == "begin":
+    if body == 'Begin' or body == "begin" or body == 'Begin ':
         r.message("Welcome to PollText! Enter your 5-digit zip code")
         if len(body) != 5:
             r.message("Please try again, send your 5-digit zipcode")
