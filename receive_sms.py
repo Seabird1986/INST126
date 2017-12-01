@@ -14,16 +14,18 @@ app = Flask(__name__)
 def sms_reply():
     r = MessagingResponse()
     body = request.values.get('Body', None)
-    if body == 'Begin' or body == "begin" or body == 'Begin ':
-        r.message("Welcome to PollText! Enter your 5-digit zip code")
-        if len(body) != 5:
+    begin = request.values.get('Body', None)
+    zipcode = request.values.get('Body', None)
+    demand = request.values.get('Body', None)
+    if begin == 'Begin' or begin == "begin" or begin == 'Begin ':
+        r.message("Welcome to PollText! Reply with your 5-digit zip code to recieve phone number, email or website of your Senate Representative. ")
+        if len(zipcode) != 5:
             r.message("Please try again, send your 5-digit zipcode")
-    elif len(body) == 5:
+    elif len(zipcode) == 5:
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
-        zc = str(body)
+        zc = str(zipcode)
         s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
         serviceurl = s1+zc+s3
-        
         address = serviceurl
         print('Retrieving', address)
         json_df = urlr.urlopen(address).read().decode('utf-8')
