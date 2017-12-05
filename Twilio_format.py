@@ -12,27 +12,30 @@ app = Flask(__name__)
 @app.route('/sms', methods=['GET', 'POST'])
 
 
-
-
 def sms_reply():
     r = MessagingResponse()
-    body = request.values.get('Body', None)
+    body = request.values.get('Body', None) #for twilio 
     if body == 'SenPhone':
-        r.message("Welcome to PollText! Reply with Zip for Senators Phone Num's.")
-    try: 
-        if len(body) == 5:
-            url = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
-            z_c = str(body)
-            key = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
-            serviceurl = url+z_c+key
-            address = serviceurl
-            r.message(str(serviceurl + "Phone"))
-        else:
-            r.message("SenPhone, SenWeb, SenEmail")
-            
+        r.message("Welcome to PollText! Reply with Zip for Senators Phone Num's.") #twil
+
+        try: 
+            if len(body) == 5:
+                url = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
+                z_c = str(body)
+                key = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
+                serviceurl = url+z_c+key
+                address = serviceurl
+                r.message(str(serviceurl))
+                r.message('Phone')
+            else:
+                r.message("SenPhone, SenWeb, SenEmail")
+        except ValueError:
+            pass               
+
     
-    elif body == 'SenWeb':
-        r.message("Welcome to PollText! Reply with Zip for Senators Website.")
+    if body == 'SenWeb':
+        r.message("Welcome to PollText! Reply with Zip for Senators Website.")# for twil
+
         try:
             if len(body) == 5:
                 url = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
@@ -40,12 +43,15 @@ def sms_reply():
                 key = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
                 serviceurl = url+z_c+key
                 address = serviceurl
-                r.message(str(serviceurl + "Website"))
+                r.message(str(serviceurl))
+                r.message("Web")
             else:
-                r.message("SenPhone, SenWeb, SenEmail")
-                
+                r.message("SenPhone,SenWeb, SenEmail")
+        except ValueError:
+            pass
 
-    elif body == "SenEmail":
+    
+    if body == "SenEmail":
         r.message("Welcome to PollText! Reply with Zip for Senators Email's.")
         try:
             if len(body) == 5:
@@ -54,8 +60,8 @@ def sms_reply():
                 key = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
                 serviceurl = url+z_c+key
                 address = serviceurl
-                r.message(str(serviceurl + "Email"))
-            
+                r.message('Email')
+
         except:
             r.message('Sorry, that was not a valid input message.')
 
