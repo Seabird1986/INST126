@@ -19,7 +19,7 @@ def sms_reply():
     while True:
         if body == 'SenPhone':
             r.message("Welcome to PollText! Reply with Zip for Senators Phone Num's.")
-        try:
+        try: 
             if len(body) == 5:
                 r.message('Phone')
                 break
@@ -37,7 +37,7 @@ def sms_reply():
         except ValueError:
             r.message("SenPhone, SenWeb, SenEmail")
         else:
-            break
+            pass
 
         if body == "SenEmail":
             r.message("Welcome to PollText! Reply with Zip for Senators Email's.")
