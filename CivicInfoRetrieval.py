@@ -20,10 +20,11 @@ House_reps = {}
 for item in info['offices']: #create a list of the Official Indexes of Senate/House reps to pull info from
     if 'Senate' in item['name']:
         Senate_reps = item['officialIndices']
-
-for item in info['offices']:
     if 'Representatives' in item['name']:
         House_reps = item['officialIndices']
+
+#for item in info['offices']: Cam: Commented this out in case we need it, and moved the above 2 line into one for loop.
+    
 
 entries_count = 0
 rep_number = 1
