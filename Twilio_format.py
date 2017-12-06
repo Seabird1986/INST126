@@ -19,7 +19,7 @@ def sms_reply():
     body = request.values.get('Body', None)
 
     if body.strip().lower() == "begin":
-       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Websites XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
+       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Emails XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
     elif len(body) == 18:
         #Phone Number XXXXX' 18 char
         body_zip = body[13:]
@@ -44,18 +44,19 @@ def sms_reply():
         while entries_count < len(info['officials']):
             for item in info['officials']:
                 if entries_count in Senate_reps:
-                    Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
+                    Senator_Info.update({item['name']:item['phones']})
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
-                    Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' website': item['urls']})
                     rep_number += 1
                 entries_count += 1
         entries_count = 0
         rep_number = 1
         r.message(str(Senator_Info))
-    elif len(body) == 14:
-        #'Websites XXXXX' 14 char
-        body_zip = body[9:]
+    elif len(body) == 12:
+        #'Emails XXXXX' 12 char
+        body_zip = body[7:]
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
         zc = str(body_zip)
         s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
@@ -70,20 +71,17 @@ def sms_reply():
         for item in info['offices']: #create a list of the Official Indexes of Senate/House reps to pull info from
             if 'Senate' in item['name']:
                 Senate_reps = item['officialIndices']
-
-        for item in info['offices']:
-            if 'Representatives' in item['name']:
-                House_reps = item['officialIndices']
         entries_count = 0
         rep_number = 1
         Senator_Info = {}
         while entries_count < len(info['officials']):
             for item in info['officials']:
                 if entries_count in Senate_reps:
-                    Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
+                    #Senator_Info.update({item['name']:item['emails']})
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
-                    Senator_Info.update({'Senate Representative ' + str(rep_number) + ' website': item['urls']})
+                    Senator_Info.update({'Senate Representative ' + str(rep_number) + ' emails': item['urls']})
                     rep_number += 1
                 entries_count += 1
         entries_count = 0
@@ -112,14 +110,19 @@ def sms_reply():
         while entries_count < len(info['officials']):
             for item in info['officials']:
                 if entries_count in Senate_reps:
-                    Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
-                    Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
+                    Senator_Info.update({item['name']:item['address']})
+
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' website': item['urls']})
                     rep_number += 1
                 entries_count += 1
         entries_count = 0
         rep_number = 1
+
+
+        
         r.message(str(Senator_Info))
     else:
         r.message("Broken, Try Again")
