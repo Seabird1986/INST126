@@ -143,12 +143,12 @@ import re
 if body.startswith('phone') or if body.startswith('phone'):
     a = re.findall(r'\d+', 'Phone Number 20904')
     c = str(list(a))
-    d = c[2:-2]
+    d = c[2:-2] #This would be the URL thats we'd plug into the API Call
     e = "google.com/address="+d
     print(e)
 
 
-
-
-''''
+'''
+#how i think we should strip the output:
+# str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
 
