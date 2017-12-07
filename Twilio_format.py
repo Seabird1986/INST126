@@ -19,7 +19,7 @@ def sms_reply():
     body = request.values.get('Body', None)
 
     if body.strip().lower() == "begin":
-       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Emails XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
+       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Website XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
     elif len(body) == 18:
         #Phone Number XXXXX' 18 char
         body_zip = body[13:]
@@ -54,9 +54,9 @@ def sms_reply():
         entries_count = 0
         rep_number = 1
         r.message(str(Senator_Info))
-    elif len(body) == 12:
-        #'Emails XXXXX' 12 char
-        body_zip = body[7:]
+    elif len(body) == 13:
+        #'Website XXXXX' 13 char
+        body_zip = body[8:]
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
         zc = str(body_zip)
         s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
@@ -77,11 +77,11 @@ def sms_reply():
         while entries_count < len(info['officials']):
             for item in info['officials']:
                 if entries_count in Senate_reps:
-                    #Senator_Info.update({item['name']:item['emails']})
+                    Senator_Info.update({item['name']:item['urls']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
-                    Senator_Info.update({'Senate Representative ' + str(rep_number) + ' emails': item['urls']})
+                    #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' emails': item['urls']})
                     rep_number += 1
                 entries_count += 1
         entries_count = 0
@@ -133,6 +133,22 @@ if __name__ == "__main__":
 
 
 
+#How we will do some error checking and just extract their zip, meaning we can eliminate
+# the current part where we check for lenght.     
+'''
+body = input('enter phone: ')
 
 
+import re
+if body.startswith('phone') or if body.startswith('phone'):
+    a = re.findall(r'\d+', 'Phone Number 20904')
+    c = str(list(a))
+    d = c[2:-2]
+    e = "google.com/address="+d
+    print(e)
+
+
+
+
+''''
 
