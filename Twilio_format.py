@@ -8,21 +8,17 @@ from flask import Flask, request, redirect
 from twilio import twiml
 from twilio.twiml.messaging_response import MessagingResponse
 #   python /Users/cricket/Documents/GitHub/INST126/Twilio_format.py
-#sunlightfoundation.com check for internships
 
 
 app = Flask(__name__)
 @app.route('/sms', methods=['GET', 'POST'])
 
-
 def sms_reply():
     r = MessagingResponse()
     body = request.values.get('Body', None)
-
     if body.strip().lower() == "begin":
        r.message("Welcome to SenText! Text 'Phone Number XXXXX', 'Websites XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
     elif len(body) == 18:
-            
         #Phone Number XXXXX' 18 char
         body_zip = body[13:]
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
