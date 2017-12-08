@@ -3,6 +3,7 @@ import urllib.parse as url
 import urllib.error as urle
 import json
 import os
+import re
 from flask import Flask, request, redirect
 from twilio import twiml
 from twilio.twiml.messaging_response import MessagingResponse
@@ -19,8 +20,9 @@ def sms_reply():
     body = request.values.get('Body', None)
 
     if body.strip().lower() == "begin":
-       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Website XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
+       r.message("Welcome to PollText! Text 'Phone Number XXXXX', 'Websites XXXXX', or 'Address XXXXX' Replacing X's with 5-Digit ZipCode")        
     elif len(body) == 18:
+            
         #Phone Number XXXXX' 18 char
         body_zip = body[13:]
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
@@ -28,7 +30,6 @@ def sms_reply():
         s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
         serviceurl = s1+zc+s3
         address = serviceurl
-        #r.message(str(serviceurl))
         print('Retrieving', address)
         json_df = urlr.urlopen(address).read().decode('utf-8')
         print('Retrieved', len(json_df), 'characters')
@@ -53,10 +54,11 @@ def sms_reply():
                 entries_count += 1
         entries_count = 0
         rep_number = 1
-        r.message(str(Senator_Info))
-    elif len(body) == 13:
-        #'Website XXXXX' 13 char
-        body_zip = body[8:]
+        
+        r.message(str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
+    elif len(body) == 14:
+        #'Websites XXXXX' 14 char
+        body_zip = body[9:]
         s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
         zc = str(body_zip)
         s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
@@ -86,7 +88,7 @@ def sms_reply():
                 entries_count += 1
         entries_count = 0
         rep_number = 1
-        r.message(str(Senator_Info))
+        r.message(str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
     elif len(body) == 13:
         #'Address XXXXX' 13 char
         body_zip = body[8:]
@@ -111,7 +113,6 @@ def sms_reply():
             for item in info['officials']:
                 if entries_count in Senate_reps:
                     Senator_Info.update({item['name']:item['address']})
-
                     #Senator_Info.update({'Senate Representative ' + str(rep_number): item['name']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' address': item['address']})
                     #Senator_Info.update({'Senate Representative ' + str(rep_number) + ' phone': item['phones']})
@@ -119,11 +120,8 @@ def sms_reply():
                     rep_number += 1
                 entries_count += 1
         entries_count = 0
-        rep_number = 1
-
-
-        
-        r.message(str(Senator_Info))
+        rep_number = 1        
+        r.message(str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
     else:
         r.message("Broken, Try Again")
     return str(r)
@@ -140,7 +138,7 @@ body = input('enter phone: ')
 
 
 import re
-if body.startswith('phone') or if body.startswith('phone'):
+if body.startswith('phone').lower() or if body.startswith('Phone') or if body.startswith('Phone Number'):
     a = re.findall(r'\d+', 'Phone Number 20904')
     c = str(list(a))
     d = c[2:-2] #This would be the URL thats we'd plug into the API Call
