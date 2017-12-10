@@ -15,14 +15,14 @@ app = Flask(__name__)
 
 def sms_reply():
     r = MessagingResponse()
-    body = request.values.get('Body', None)
+    body = request.values.get('Body', None) #this is the function that parses the messages sent.
     if body.strip().lower() == "begin":
        r.message("Welcome to SenText! Text 'Phone XXXXX', 'Web XXXXX', or 'Address XXXXX' Replacing X's w/ 5-Digit ZipCode. (No DC Data Available)")        
     elif body.lower().strip().startswith('phone'):
-        extract = re.findall(r'\d+', body)
-        extract = str(list(extract))
+        extract = re.findall(r'\d+', body)  #this function extracts all the integers from the string and puts them in a list
+        extract = str(list(extract))        #this converts the list to a string, and the next one strips brackets and quotes
         extract_num = extract[2:-2]
-        try:
+        try:                                #this assures that the actually inputted a 5 digit zipcode. 
             if len(extract_num) == 5:      
                 s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
                 zc = str(extract_num)
@@ -46,7 +46,7 @@ def sms_reply():
                         entries_count += 1
                 entries_count = 0
                 rep_number = 1
-                r.message(str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
+                r.message(str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'","")) #this removes braces/brackets
             else:
                 print("Error")
                 r.message("Error: Zip must be 5-Digits")
@@ -130,23 +130,4 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-
-#How we will do some error checking and just extract their zip, meaning we can eliminate
-# the current part where we check for lenght.     
-'''
-body = input('enter phone: ')
-
-
-import re
-if body.startswith('phone').lower() or if body.startswith('Phone') or if body.startswith('Phone Number'):
-    a = re.findall(r'\d+', 'Phone Number 20904')
-    c = str(list(a))
-    d = c[2:-2] #This would be the URL thats we'd plug into the API Call
-    e = "google.com/address="+d
-    print(e)
-
-
-'''
-#how i think we should strip the output:
-# str(Senator_Info).replace("{","").replace("}","").replace("[","").replace("]","").replace("'",""))
 
