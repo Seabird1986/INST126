@@ -17,7 +17,7 @@ def sms_reply():
     r = MessagingResponse()
     body = request.values.get('Body', None)
     if body.strip().lower() == "begin":
-       r.message("Welcome to SenText! Text 'Phone XXXXX', 'Website XXXXX', or 'Address XXXXX' Replacing X's w/ 5-Digit ZipCode. (No DC Data Available)")        
+       r.message("Welcome to SenText! Text 'Phone XXXXX', 'Web XXXXX', or 'Address XXXXX' Replacing X's w/ 5-Digit ZipCode. (No DC Data Available)")        
     elif body.lower().strip().startswith('phone'):
         extract = re.findall(r'\d+', body)
         extract = str(list(extract))
