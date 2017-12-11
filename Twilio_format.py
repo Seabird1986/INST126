@@ -17,7 +17,7 @@ def sms_reply():
     r = MessagingResponse()
     body = request.values.get('Body', None) #this is the function that parses the messages sent.
     if body.strip().lower() == "begin":
-       r.message("Welcome to SenText! Text 'Phone XXXXX', 'Web XXXXX', or 'Address XXXXX' Replacing X's w/ 5-Digit ZipCode. (No DC Data Available)")        
+       r.message("Welcome to SenText! Text 'Phone XXXXX', 'Web XXXXX', or 'Address XXXXX' Replacing X's w/ 5-Digit ZipCode for Senator Info. (No DC Data Available)")        
     elif body.lower().strip().startswith('phone'):
         extract = re.findall(r'\d+', body)  #this function extracts all the integers from the string and puts them in a list
         extract = str(list(extract))        #this converts the list to a string, and the next one strips brackets and quotes
