@@ -23,10 +23,10 @@ def sms_reply():
         extract_num = extract[2:-2]
         try:                                #this assures that the actually inputted a 5 digit zipcode.                #Cam Kelly
             if len(extract_num) == 5:      
-                s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='                                #Dawit Ocbai
-                zc = str(extract_num)
-                s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
-                serviceurl = s1+zc+s3
+                s = 'https://www.googleapis.com/civicinfo/v2/representatives?address='                                #Dawit Ocbai
+                z = str(extract_num)
+                k = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
+                serviceurl = s+z+k
                 address = serviceurl
                 json_df = urlr.urlopen(address).read().decode('utf-8')
                 info = json.loads(json_df)
@@ -58,10 +58,10 @@ def sms_reply():
         extract_num = extract[2:-2]
         try:
             if len(extract_num) == 5: 
-                s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
-                zc = str(extract_num)
-                s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
-                serviceurl = s1+zc+s3
+                s = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
+                z = str(extract_num)
+                k = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
+                serviceurl = s+z+k
                 address = serviceurl
                 json_df = urlr.urlopen(address).read().decode('utf-8')
                 info = json.loads(json_df)
@@ -93,10 +93,10 @@ def sms_reply():
         extract_num = extract[2:-2]
         try:
             if len(extract_num) == 5: 
-                s1 = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
-                zc = str(extract_num)
-                s3 = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
-                serviceurl = s1+zc+s3
+                s = 'https://www.googleapis.com/civicinfo/v2/representatives?address='
+                z = str(extract_num)
+                k = '&key=AIzaSyBI4HcpedG-wMZPyVV8Sy7Q9Kal5i0EOy4'
+                serviceurl = s+z+k
                 address = serviceurl
                 json_df = urlr.urlopen(address).read().decode('utf-8')
                 info = json.loads(json_df)
